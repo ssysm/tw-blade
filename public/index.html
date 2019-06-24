@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <label for="displayName">Display Name</label>
+        <input type="text" name="displayName" id="displayName"/>
+        <br>
+        <label for="uid">UID</label>
+        <input type="text" name="uid" id="uid"/>
+        <br>
+        <button id="lookup">Look Up</button>
+        <button id="submit">Submit</button>
+    </div>
+    <div class="container">
+        <p>List:</p>
+        <ul id="list">
+        </ul>
+    </div>
+    <script>
+        let submit = document.getElementById('submit'),
+            lookup = document.getElementById('lookup');
+        window.onload = function(){
+        	reloadList();
+        };
+
+        function reloadList(){
+            axios.get('/tracker')
+                .then(res => res.data.result)
+                .then(data => {
+                    const list = document.getElementById('list');
+                    list.innerHTML = null;
+                    for (let item of data) {
+                        list.innerHTML += `<li>${item.displayName}</li>`
+                    }
+                })
+        }
+
+        function handleLookup(){
+        	let displayName = document.getElementById('displayName'),
+                uid = document.getElementById('uid');
+        	axios.get('/lookup/display_name/' + displayName.value)
+              .then(res => res.data.result)
+              .then(data => {
+              	uid.value = data.id
+              })
+        }
+
+        function handleSubmit(){
+            let displayName = document.getElementById('displayName'),
+                uid = document.getElementById('uid');
+            axios.post('/tracker/single',{
+            	displayName: displayName.value,
+                uid: uid.value
+            })
+            .then(res => res.data.result)
+            .then(data => {
+                alert('Added');
+                reloadList();
+                displayName.value = null;
+                uid.value = null;
+            })
+          .catch(e =>{
+                alert('Error, user exist or other server error');
+          })
+        }
+
+        submit.addEventListener('click', handleSubmit);
+        lookup.addEventListener('click', handleLookup);
+    </script>
+</body>
+</html>

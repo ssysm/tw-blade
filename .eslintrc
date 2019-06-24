@@ -1,0 +1,30 @@
+{
+    "extends": "standard",
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": false
+        }
+    },
+    "rules": {
+        "semi": [
+            "error",
+            "always"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "no-unused-expressions": "off",
+        "no-sequences": "off",
+        "indent": "off",
+        "no-tabs": "off",
+        "no-mixed-spaces-and-tabs": "off",
+        "no-unreachable": "warn",
+        "camelcase": "off"
+    },
+    "env": {
+        "node": true
+    }
+}
