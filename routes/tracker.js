@@ -19,6 +19,18 @@ router.get('/', (req, res) => {
 		});
 });
 
+router.get('/uid/:uid', (req, res) => {
+	let { uid } = req.params;
+	Tracker
+		.findOne({ uid }, (err, docs) => {
+			if (err) {
+				res.status(500).send(resBuilder(err, null));
+			} else {
+				res.send(resBuilder(null, docs));
+			}
+		});
+});
+
 router.post('/single', (req, res) => {
 	const { uid, displayName } = req.body;
 	Tracker
