@@ -69,7 +69,7 @@ cron.schedule('*/1 * * * *', function () {
 });
 (async () => {
 	try {
-		browser = await puppeteer.launch({ headless: http.headless });
+		browser = await puppeteer.launch({ headless: http.headless, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
 	} catch (e) {
 		throw e;
 	}
