@@ -68,6 +68,10 @@ cron.schedule('*/1 * * * *', function () {
 	timezone: 'Asia/Tokyo'
 });
 (async () => {
-	browser = await puppeteer.launch({ headless: http.headless });
+	try {
+		browser = await puppeteer.launch({ headless: http.headless });
+	} catch (e) {
+		throw e;
+	}
 	console.log('Puppeteer Launched');
 })();
