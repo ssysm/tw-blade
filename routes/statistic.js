@@ -41,26 +41,7 @@ router.get('/by/min/:id', (req, res) => {
 });
 
 router.get('/by/hour/:id', (req, res) => {
-	const { id } = req.params;
-	// const { before, after } = req.query;
-	const Profile = mongoose.model('Profile', ProfileSchema, '' + id);
-	Profile
-		.aggregate([{
-			$project: {
-				hour: {
-					$hour: '$createdAt'
-				}
-			} },
-			{
-				$match: {
-					hour: { '$in': [11, 12] } } } ])
-		.exec((err, docs) => {
-			if (err) {
-				res.status(500).send(resBuilder(err, null));
-			} else {
-				res.send(resBuilder(null, docs));
-			}
-		});
+
 });
 
 router.get('/by/day/:id', (req, res) => {

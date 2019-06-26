@@ -1,5 +1,5 @@
 module.exports = {
-	Event: require('./event'),
+	Event: require('./Event'),
 	ProfileSchema: require('./Profile'),
 	Tracker: require('./Tracker'),
 	CronLog: require('./CronLog')
