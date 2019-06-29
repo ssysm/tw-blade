@@ -32,9 +32,9 @@ router.get('/uid/:uid', (req, res) => {
 });
 
 router.post('/single', (req, res) => {
-	const { uid, displayName } = req.body;
+	const { uid, displayName, tags, remark } = req.body;
 	Tracker
-		.create({ uid, displayName, createdAt: Date.now() }, (err, docs) => {
+		.create({ uid, displayName, createdAt: Date.now(), tags, remark }, (err, docs) => {
 			if (err) {
 				res.status(500).send(resBuilder(err, null));
 			} else {
