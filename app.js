@@ -9,6 +9,7 @@ const trackerRouter = require('./routes/tracker');
 const statisticRouter = require('./routes/statistic');
 const eventRouter = require('./routes/event');
 const logRouter = require('./routes/log');
+const tagsRouter = require('./routes/tags');
 
 const app = express();
 require('./services/database');
@@ -26,5 +27,6 @@ app.use('/tracker', trackerRouter);
 app.use('/statistic', statisticRouter);
 app.use('/event', eventRouter);
 app.use('/log', logRouter);
+app.use('/tags', tagsRouter);
 
 module.exports = app;

@@ -1,0 +1,3 @@
+[submodule "client"]
+	path = client
+	url = https://github.com/ssysm/tw-blade-frontend

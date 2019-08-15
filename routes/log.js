@@ -6,7 +6,7 @@ const resBuilder = require('./../utils/responseBuilder');
 router.get('/latest', (req, res) => {
 	CronLog
 		.find({})
-		.limit(60)
+		.limit(15)
 		.sort({ finishedAt: -1 })
 		.exec((err, docs) => {
 			if (err) {

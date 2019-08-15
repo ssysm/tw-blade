@@ -8,8 +8,9 @@ const { ProfileSchema } = require('./../models');
 router.get('/latest/:id', (req, res) => {
 	const { id } = req.params;
 	const Profile = mongoose.model('Profile', ProfileSchema, '' + id);
+	const localPipeline = pipeline;
 	Profile
-		.find()
+		.aggregate(localPipeline)
 		.limit(60)
 		.sort({ updatedAt: -1 })
 		.exec((err, docs) => {
@@ -25,13 +26,17 @@ router.get('/by/min/:id', (req, res) => {
 	const { id } = req.params;
 	const { before, after } = req.query;
 	const Profile = mongoose.model('Profile', ProfileSchema, '' + id);
-	Profile
-		.find({
+	let localPipeline = pipeline;
+	localPipeline.unshift({
+		'$match': {
 			updatedAt: {
 				$gte: new Date(parseInt(after)),
 				$lt: new Date(parseInt(before))
 			}
-		})
+		}
+	});
+	Profile
+		.aggregate(localPipeline)
 		.exec((err, docs) => {
 			if (err) {
 				res.status(500).send(resBuilder(err, null));
@@ -45,7 +50,8 @@ router.get('/by/hour/:id', (req, res) => {
 	const { id } = req.params;
 	const { before, after } = req.query;
 	const Profile = mongoose.model('Profile', ProfileSchema, '' + id);
-	pipeline.unshift({
+	let localPipeline = pipeline;
+	localPipeline.unshift({
 		'$match': {
 			updatedAt: {
 				$gte: new Date(parseInt(after)),
@@ -53,13 +59,13 @@ router.get('/by/hour/:id', (req, res) => {
 			}
 		}
 	});
-	pipeline.push({
+	localPipeline.push({
 		'$match': {
 			'minute': 0
 		}
 	});
 	Profile
-		.aggregate(pipeline)
+		.aggregate(localPipeline)
 		.exec((err, docs) => {
 			if (err) {
 				res.status(500).send(resBuilder(err, null));
@@ -73,7 +79,8 @@ router.get('/by/day/:id', (req, res) => {
 	const { id } = req.params;
 	const { before, after } = req.query;
 	const Profile = mongoose.model('Profile', ProfileSchema, '' + id);
-	pipeline.unshift({
+	let localPipeline = pipeline;
+	localPipeline.unshift({
 		'$match': {
 			updatedAt: {
 				$gte: new Date(parseInt(after)),
@@ -81,14 +88,14 @@ router.get('/by/day/:id', (req, res) => {
 			}
 		}
 	});
-	pipeline.push({
+	localPipeline.push({
 		'$match': {
 			'minute': 0,
 			'hour': 0
 		}
 	});
 	Profile
-		.aggregate(pipeline)
+		.aggregate(localPipeline)
 		.exec((err, docs) => {
 			if (err) {
 				res.status(500).send(resBuilder(err, null));
@@ -102,7 +109,8 @@ router.get('by/month/:id', (req, res) => {
 	const { id } = req.params;
 	const { before, after } = req.query;
 	const Profile = mongoose.model('Profile', ProfileSchema, '' + id);
-	pipeline.unshift({
+	let localPipeline = pipeline;
+	localPipeline.unshift({
 		'$match': {
 			updatedAt: {
 				$gte: new Date(parseInt(after)),
@@ -110,7 +118,7 @@ router.get('by/month/:id', (req, res) => {
 			}
 		}
 	});
-	pipeline.push({
+	localPipeline.push({
 		'$match': {
 			'minute': 0,
 			'hour': 0,
@@ -118,7 +126,7 @@ router.get('by/month/:id', (req, res) => {
 		}
 	});
 	Profile
-		.aggregate(pipeline)
+		.aggregate(localPipeline)
 		.exec((err, docs) => {
 			if (err) {
 				res.status(500).send(resBuilder(err, null));
@@ -132,7 +140,8 @@ router.get('/by/year/:id', (req, res) => {
 	const { id } = req.params;
 	const { before, after } = req.query;
 	const Profile = mongoose.model('Profile', ProfileSchema, '' + id);
-	pipeline.unshift({
+	let localPipeline = pipeline;
+	localPipeline.unshift({
 		'$match': {
 			updatedAt: {
 				$gte: new Date(parseInt(after)),
@@ -140,7 +149,7 @@ router.get('/by/year/:id', (req, res) => {
 			}
 		}
 	});
-	pipeline.push({
+	localPipeline.push({
 		'$match': {
 			'minute': 0,
 			'hour': 0,
@@ -149,7 +158,7 @@ router.get('/by/year/:id', (req, res) => {
 		}
 	});
 	Profile
-		.aggregate(pipeline)
+		.aggregate(localPipeline)
 		.exec((err, docs) => {
 			if (err) {
 				res.status(500).send(resBuilder(err, null));

@@ -62,7 +62,7 @@ const cronJobs = async () => {
 
 cron.schedule('*/1 * * * *', function () {
 	console.log('Cron Job Started at ' + new Date());
-	cronJobs();
+	// cronJobs();
 }, {
 	scheduled: true,
 	timezone: 'Asia/Tokyo'

@@ -10,9 +10,14 @@
   "author": "ssysm",
   "license": "GPL-3.0",
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www",
-    "test": "eslint -f table ."
+    "client:start": "npm run start --prefix client",
+    "client:build": "npm run build --prefix client",
+    "client:test": "npm run test --prefix client",
+    "client:lint": "npm run lint --prefix client",
+    "server:start": "node ./bin/www",
+    "server:dev": "nodemon ./bin/www",
+    "server:test": "eslint -f table .",
+    "test": "npm run server:test && npm run client:lint"
   },
   "dependencies": {
     "axios": "^0.19.0",

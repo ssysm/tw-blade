@@ -12,7 +12,7 @@ router.get('/id/:id', (req, res) => {
 			res.send(resBuilder(null, data[0]));
 		})
 		.catch(e => {
-			console.error(e);
+			console.error(e.toString());
 			res.status(500).send(resBuilder(e, null));
 		});
 });
@@ -25,7 +25,7 @@ router.get('/display_name/:name', (req, res) => {
 			res.send(resBuilder(null, data[0]));
 		})
 		.catch(e => {
-			console.error(e);
+			console.error(e.toString());
 			res.status(500).send(resBuilder(e, null));
 		});
 });

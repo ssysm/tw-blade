@@ -24,7 +24,8 @@ module.exports = [
 			'year': {
 				'$year': '$updatedAt'
 			},
-			'followerCount': 1
+			'followerCount': 1,
+			'updatedAt': 1
 		}
 	}
 ];
